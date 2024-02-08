@@ -25,4 +25,16 @@ describe('MenuController (e2e)', () => {
       .expect(200)
       .expect(coffeMenus);
   });
+
+  it('/menu/popular (GET)', () => {
+    const popularCoffeMenus = [
+      { menuId: 1, totalQuantity: 500 },
+      { menuId: 2, totalQuantity: 100 },
+      { menuId: 3, totalQuantity: 20 },
+    ];
+    return request(app.getHttpServer())
+      .get('/menu/popular')
+      .expect(200)
+      .expect(popularCoffeMenus);
+  });
 });
