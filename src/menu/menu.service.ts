@@ -9,7 +9,7 @@ export class MenuService {
     return this.menuRepo.getPopularCoffeMenus();
   }
 
-  getCoffeMenu() {
-    return this.menuRepo.getCoffeMenu();
+  getCoffeMenu({ cursor, limit = 10 }: { cursor?: number; limit?: number }) {
+    return this.menuRepo.getCoffeMenu({ cursor, limit });
   }
 }

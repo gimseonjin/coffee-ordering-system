@@ -18,8 +18,15 @@ export class MenuRepository {
     ];
   }
 
-  async getCoffeMenu() {
-    const menus = await this.dbClient.menu.findMany()
-    return menus.map(menu => new Menu(menu.menuId, menu.name, menu.price));
+  async getCoffeMenu({ cursor, limit }: { cursor?: number; limit: number }) {
+    const queryOptions = {
+      take: limit,
+      cursor: cursor ? { menuId: cursor } : undefined,
+      skip: cursor ? 1 : undefined,
+    };
+
+    const menus = await this.dbClient.menu.findMany(queryOptions);
+
+    return menus.map((menu) => new Menu(menu.menuId, menu.name, menu.price));
   }
 }

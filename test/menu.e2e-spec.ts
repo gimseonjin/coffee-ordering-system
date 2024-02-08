@@ -3,6 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { DbClient } from './../src/database/db.client';
+import { ValidationPipe } from '@nestjs/common';
 
 describe('MenuController (e2e)', () => {
   let app: INestApplication;
@@ -15,6 +16,14 @@ describe('MenuController (e2e)', () => {
 
     dbClient = moduleFixture.get<DbClient>(DbClient);
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(
+      new ValidationPipe({
+        transform: true,
+        transformOptions: {
+          enableImplicitConversion: true,
+        },
+      }),
+    );
     await app.init();
   });
 
@@ -28,8 +37,8 @@ describe('MenuController (e2e)', () => {
   });
 
   afterEach(async () => {
-    await dbClient.menu.deleteMany({})
-  })
+    await dbClient.menu.deleteMany({});
+  });
 
   it('/menu (GET)', () => {
     const coffeMenus = [
@@ -38,6 +47,7 @@ describe('MenuController (e2e)', () => {
     ];
     return request(app.getHttpServer())
       .get('/menu')
+      .query({ limit: 10 })
       .expect(200)
       .expect(coffeMenus);
   });

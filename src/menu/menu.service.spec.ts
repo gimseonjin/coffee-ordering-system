@@ -1,15 +1,16 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { TestBed } from '@automock/jest';
 import { MenuService } from './menu.service';
+import { MenuRepository } from './menu.repository.ts';
 
 describe('MenuService', () => {
   let service: MenuService;
+  let repository: jest.Mocked<MenuRepository>;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [MenuService],
-    }).compile();
+  beforeAll(() => {
+    const { unit, unitRef } = TestBed.create(MenuService).compile();
 
-    service = module.get<MenuService>(MenuService);
+    service = unit;
+    repository = unitRef.get(MenuRepository);
   });
 
   it('should be defined', () => {
