@@ -1,20 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import { MenuRepository } from './menu.repository.ts';
 
 @Injectable()
 export class MenuService {
+  constructor(private readonly menuRepo: MenuRepository) {}
 
   getPopularMenus() {
-    return [
-      { menuId: 1, totalQuantity: 500 },
-      { menuId: 2, totalQuantity: 100 },
-      { menuId: 3, totalQuantity: 20 },
-    ];
+    return this.menuRepo.getPopularCoffeMenus();
   }
-  
+
   getCoffeMenu() {
-    return [
-      { menuId: 1, name: 'latte', price: 1000 },
-      { menuId: 2, name: 'americano', price: 2000 },
-    ];
+    return this.menuRepo.getCoffeMenu();
   }
 }

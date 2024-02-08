@@ -7,7 +7,7 @@ export class MenuController {
 
   @Get()
   getCoffeMenu() {
-    return this.menuSvc.getCoffeMenu()
+    return this.menuSvc.getCoffeMenu();
   }
 
   @Get('/popular')
