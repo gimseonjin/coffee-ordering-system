@@ -2,18 +2,34 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
+import { DbClient } from './../src/database/db.client';
 
 describe('MenuController (e2e)', () => {
   let app: INestApplication;
+  let dbClient: DbClient;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
 
+    dbClient = moduleFixture.get<DbClient>(DbClient);
     app = moduleFixture.createNestApplication();
     await app.init();
   });
+
+  beforeEach(async () => {
+    await dbClient.menu.createMany({
+      data: [
+        { menuId: 1, name: 'latte', price: 1000 },
+        { menuId: 2, name: 'americano', price: 2000 },
+      ],
+    });
+  });
+
+  afterEach(async () => {
+    await dbClient.menu.deleteMany({})
+  })
 
   it('/menu (GET)', () => {
     const coffeMenus = [
