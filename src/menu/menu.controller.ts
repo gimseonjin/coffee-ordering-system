@@ -7,11 +7,11 @@ export class MenuController {
 
   @Get()
   getCoffeMenu() {
-    return this.menuSvc.getCoffeMenu()
+    return this.menuSvc.getCoffeMenu();
   }
 
   @Get('/popular')
   getPopularMenus() {
-    return this.menuSvc.getPopularMenus()
+    return this.menuSvc.getPopularMenus();
   }
 }
