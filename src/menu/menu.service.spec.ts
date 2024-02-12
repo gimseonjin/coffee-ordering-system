@@ -1,6 +1,6 @@
 import { TestBed } from '@automock/jest';
 import { MenuService } from './menu.service';
-import { MenuRepository } from './menu.repository.ts';
+import { MenuRepository } from './menu.repository';
 
 describe('MenuService', () => {
   let service: MenuService;

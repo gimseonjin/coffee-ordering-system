@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { MenuRepository } from './menu.repository.ts';
+import { MenuRepository } from './menu.repository';
 
 type GetCoffeMenuParams = {
   cursor?: number;
