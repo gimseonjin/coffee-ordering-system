@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { MenuRepository } from './menu.repository.ts';
 
+type GetCoffeMenuParams = {
+  cursor?: number;
+  limit?: number;
+};
+
 @Injectable()
 export class MenuService {
   constructor(private readonly menuRepo: MenuRepository) {}
@@ -9,7 +14,7 @@ export class MenuService {
     return this.menuRepo.getPopularCoffeMenus();
   }
 
-  getCoffeMenu({ cursor, limit = 10 }: { cursor?: number; limit?: number }) {
+  getCoffeMenu({ cursor, limit = 10 }: GetCoffeMenuParams) {
     return this.menuRepo.getCoffeMenu({ cursor, limit });
   }
 }
