@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 
-describe('PointController (e2e)', () => {
+describe('UserController (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
@@ -15,7 +15,7 @@ describe('PointController (e2e)', () => {
     await app.init();
   });
 
-  it('/point (PATCH)', () => {
+  it('/user/charge/point (PATCH)', () => {
     const chargePointReq = {
       userId: 'user',
       point: 500,
@@ -27,7 +27,7 @@ describe('PointController (e2e)', () => {
     };
 
     return request(app.getHttpServer())
-      .patch('/point')
+      .patch('/user/charge/point')
       .send(chargePointReq)
       .expect(200)
       .expect(expectResult);
