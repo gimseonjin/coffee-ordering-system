@@ -21,12 +21,12 @@ describe('UserRepository', () => {
     await dbClient.user.deleteMany({});
   });
 
-  it('should return null if user is not exists', async () => {
+  it('should return null when user does not exist in the database', async () => {
     const user = await repository.findBy({ userId: 'notExists' });
     expect(user).toBe(null);
   });
 
-  it('should return the correct user', async () => {
+  it('should retrieve a user with valid userId', async () => {
     await dbClient.user.create({
       data: {
         userId: 'userId',
@@ -42,7 +42,7 @@ describe('UserRepository', () => {
     });
   });
 
-  it('should increase user point', async () => {
+  it("should correctly increment user's points", async () => {
     await dbClient.user.create({
       data: {
         userId: 'userId',
@@ -56,5 +56,31 @@ describe('UserRepository', () => {
     });
 
     expect(user.point).toBe(200);
+  });
+
+  it('should accurately and concurrently increase user points after 10 increments', async () => {
+    await dbClient.user.create({
+      data: {
+        userId: 'userId',
+        point: 100,
+      },
+    });
+
+    const pomises = [];
+
+    for (let i = 0; i < 10; i++) {
+      pomises.push(
+        repository.increasePoints({
+          userId: 'userId',
+          point: 100,
+        }),
+      );
+    }
+
+    await Promise.all(pomises);
+
+    const user = await dbClient.user.findFirst({ where: { userId: 'userId' } });
+
+    expect(user.point).toBe(1100);
   });
 });
