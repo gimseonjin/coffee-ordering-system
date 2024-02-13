@@ -15,3 +15,8 @@ model menu {
   name   String
   price  Int
 }
+
+model user {
+  userId String @id
+  point Int @default(0)
+}

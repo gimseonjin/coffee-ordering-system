@@ -1,8 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MenuRepository } from './menu.repository.ts';
+import { MenuRepository } from './menu.repository';
 import { DatabaseModule } from '../database/database.module';
 import { DbClient } from '../database/db.client';
-import { Menu } from './entities/menu.entity';
 
 describe('MenuRepository', () => {
   let repository: MenuRepository;
